@@ -18,12 +18,12 @@ style = ttk.Style()
 style.map('Treeview', foreground=fixed_map('foreground'), background=fixed_map('background'))
 
 
-def hypotenuse(a,b):
-    assert a > 0
-    assert b > 0  
+def pythagorean(a,b):
+    #assert a > 0
+    #assert b > 0  
     c_squared = a ** 2 + b ** 2
     c = c_squared ** (1/2)
-    assert round(c ** 2) == round(a ** 2 + b ** 2)
+    #assert round(c ** 2) == round(a ** 2 + b ** 2)
     return c
 
 def is_primitive_triple(a,b,c,array):
@@ -80,20 +80,20 @@ class Frame(Tk.Frame):
         else:
             messagebox.showinfo("Result","Error. Please enter numeric value.")
     
-    def print_pythagorean_triple(self, max_hypotenuse):
+    def print_pythagorean_triple(self, max):
         xarray = []
         pt = 0
         ptnit = 0
-        for a in range(1,max_hypotenuse):
-            for b in range(a,max_hypotenuse):
-                for c in range(b,max_hypotenuse):
-                    if(c == hypotenuse(a, b) and is_primitive_triple(a,b,c,xarray)):
+        for a in range(1,max):
+            for b in range(a,max):
+                for c in range(b,max):
+                    if(c == pythagorean(a, b) and is_primitive_triple(a,b,c,xarray)):
                         xarray.append((a, b, c)) 
                         pt +=1
-                        self.tree.insert("", "end", values=(a, b, c), tags=(str(a),))   
+                        self.tree.insert("", "end", values=(a, b, c), tags=(str(pt),))   
                         if(b-a ==1):
                             ptnit+=1
-                            self.tree.tag_configure(a, background='lightgreen')
+                            self.tree.tag_configure(pt, background='lightgreen')
                         break          
         return (pt,ptnit)
 
