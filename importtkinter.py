@@ -1,5 +1,5 @@
 import tkinter as Tk
-from tkinter import Y, messagebox
+from tkinter import messagebox
 from tkinter import ttk
 
 def hypotenuse(a,b):
@@ -58,21 +58,27 @@ class Frame(Tk.Frame):
             
         input_value = self.input.get()
         if(input_value.isnumeric()):
-            result_list = self.print_pythagorean_triple(int(input_value))
-            #messagebox.showinfo("Result",result_list)
+            rtuple = self.print_pythagorean_triple(int(input_value))
+            messagebox.showinfo("Result",str(rtuple[0])+" pythagorean triples found.\n"+
+            str(rtuple[1])+" pythagorean triples of nearly isosceles triangle found.")
         else:
             messagebox.showinfo("Result","Error. Please enter numeric value.")
     
     def print_pythagorean_triple(self, max_hypotenuse):
         xarray = []
+        pt = 0
+        ptnit = 0
         for a in range(1,max_hypotenuse):
             for b in range(a,max_hypotenuse):
                 for c in range(b,max_hypotenuse):
                     if(c == hypotenuse(a, b) and is_primitive_triple(a,b,c,xarray)):
                         xarray.append((a, b, c)) 
+                        pt +=1
+                        if(b-a ==1):
+                            ptnit+=1
                         self.tree.insert("", "end", values=(a, b, c))   
                         break          
-        return xarray
+        return (pt,ptnit)
 
 ##----------------
 if __name__ == '__main__':
