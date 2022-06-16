@@ -2,6 +2,22 @@ import tkinter as Tk
 from tkinter import messagebox
 from tkinter import ttk
 
+def fixed_map(option):
+    # Fix for setting text colour for Tkinter 8.6.9
+    # From: https://core.tcl.tk/tk/info/509cafafae
+    #
+    # Returns the style map for 'option' with any styles starting with
+    # ('!disabled', '!selected', ...) filtered out.
+
+    # style.map() returns an empty list for missing options, so this
+    # should be future-safe.
+    return [elm for elm in style.map('Treeview', query_opt=option) if
+        elm[:2] != ('!disabled', '!selected')]
+
+style = ttk.Style()
+style.map('Treeview', foreground=fixed_map('foreground'), background=fixed_map('background'))
+
+
 def hypotenuse(a,b):
     assert a > 0
     assert b > 0  
@@ -59,8 +75,8 @@ class Frame(Tk.Frame):
         input_value = self.input.get()
         if(input_value.isnumeric()):
             rtuple = self.print_pythagorean_triple(int(input_value))
-            messagebox.showinfo("Result",str(rtuple[0])+" pythagorean triples found.\n"+
-            str(rtuple[1])+" pythagorean triples of nearly isosceles triangle found.")
+            messagebox.showinfo("Result",str(rtuple[0])+" Pythagorean triples found.\n"+
+            str(rtuple[1])+" Pythagorean triples of nearly isosceles triangle found.")
         else:
             messagebox.showinfo("Result","Error. Please enter numeric value.")
     
@@ -74,9 +90,10 @@ class Frame(Tk.Frame):
                     if(c == hypotenuse(a, b) and is_primitive_triple(a,b,c,xarray)):
                         xarray.append((a, b, c)) 
                         pt +=1
+                        self.tree.insert("", "end", values=(a, b, c), tags=(str(a),))   
                         if(b-a ==1):
                             ptnit+=1
-                        self.tree.insert("", "end", values=(a, b, c))   
+                            self.tree.tag_configure(a, background='lightgreen')
                         break          
         return (pt,ptnit)
 
