@@ -91,7 +91,7 @@ class Frame(Tk.Frame):
                         xarray.append((a, b, c)) 
                         pt +=1
                         self.tree.insert("", "end", values=(a, b, c), tags=(str(pt),))   
-                        if(b-a ==1):
+                        if(b-a ==1 and b < c):
                             ptnit+=1
                             self.tree.tag_configure(pt, background='lightgreen')
                         break          
