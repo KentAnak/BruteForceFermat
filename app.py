@@ -18,13 +18,11 @@ style = ttk.Style()
 style.map('Treeview', foreground=fixed_map('foreground'), background=fixed_map('background'))
 
 
-def pythagorean(a,b):
-    #assert a > 0
-    #assert b > 0  
-    c_squared = a ** 2 + b ** 2
-    c = c_squared ** (1/2)
-    #assert round(c ** 2) == round(a ** 2 + b ** 2)
-    return c
+def is_pythagorean(a,b,c):
+    if a ** 2 + b ** 2 == c ** 2:
+        return True
+    else:
+        return False
 
 def is_primitive_triple(a,b,c,array):
     xarray = array
@@ -43,7 +41,8 @@ class Frame(Tk.Frame):
         Tk.Frame.__init__(self, master)
 
         self.master.title("Brute Force de Fermat")
-        self.label = Tk.Label(self, text="Displays a list of Pythagorean numbers.\n\nEnter a numerical value\nthat is the largest diagonal.")
+        labeltext = "Displays a list of Pythagorean numbers.\n\nEnter a numerical value that is the largest diagonal.\n\nLet's find nearly isosceles triangles that Fermat proved."
+        self.label = Tk.Label(self, text=labeltext)
         self.label.grid(row=0, column=0, padx=10, pady=5)
 
         self.input = Tk.Entry(self, width=20)
@@ -87,7 +86,7 @@ class Frame(Tk.Frame):
         for a in range(1,max):
             for b in range(a,max):
                 for c in range(b,max):
-                    if(c == pythagorean(a, b) and is_primitive_triple(a,b,c,xarray)):
+                    if(is_pythagorean(a, b, c) and is_primitive_triple(a,b,c,xarray)):
                         xarray.append((a, b, c)) 
                         pt +=1
                         self.tree.insert("", "end", values=(a, b, c), tags=(str(pt),))   
